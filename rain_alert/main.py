@@ -1,16 +1,34 @@
-# This is a sample Python script.
+import requests
+from twilio.rest import Client
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+OWM_Endpoint = "https://api.openweathermap.org/data/2.5/onecall"
+api_key = "50d99ba620aebf87e37b1221f6ee4da1"
+weather_params = {
+    "lat": 51.507351,
+    "lon": -0.127758,
+    "appid": api_key,
+    "exclude": "current,minutely,daily"
+}
+will_rain = False
+account_sid = os.environ['AC0746f4ee4cb56551fe19efda52aac230']
+auth_token = os.environ['4d44462b352a3020909c7733bcdef3d1']
 
+response = requests.get(OWM_Endpoint, params=weather_params)
+response.raise_for_status()
+weather_data = response.json()
+weather_slice = weather_data["hourly"][:12]
+for hour_data in weather_slice:
+    condition_code = hour_data["weather"][0]["id"]
+    if int(condition_code) < 700:
+        will_rain = True
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+if will_rain:
+    client = Client(account_sid, auth_token)
+    message = client.messages \
+        .create(
+        body="It's going to rain today, pls bring the umbrella.",
+        from_='+15017122661',
+        to='+18556409542'
+    )
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print(message.sid)
