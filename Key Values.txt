@@ -1,5 +1,0 @@
-Workout Tracker:
-APP_ID = "1bff3c62"
-APP_KEY = "22b098261ca272e15a9f46a9c995efb5"
-os.environ['WORKOUT_TRACKER_APP_ID'] = '1bff3c62'
-os.environ['WORKOUT_TRACKER_APP_KEY'] = '22b098261ca272e15a9f46a9c995efb5'
