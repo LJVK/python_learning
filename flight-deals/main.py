@@ -2,10 +2,12 @@
 from data_manager import DataManager
 from flight_search import FlightSearch
 from flight_data import FlightData
+from user_manager import UserManager
 
 data_manager = DataManager()
 flight_search = FlightSearch()
 flight_data = FlightData()
+# user_manager = UserManager()
 
 sheet_data = data_manager.get_price_data()
 # print(sheet_data)
@@ -18,6 +20,5 @@ for row in sheet_data:
 print(f"Sheet Data: \n {sheet_data}")
 data_manager.update_sheet_data(sheet_data)
 # data_manager.destination_data = sheet_data
-# data_manager.update_sheet_data()
 flight_data.search_flights()
 

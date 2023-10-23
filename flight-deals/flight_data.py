@@ -1,5 +1,5 @@
 from data_manager import DataManager
-from notification_manager import NotificationManager
+from notification_manager import NotificationManager, send_message
 import requests
 import datetime
 import os
@@ -11,6 +11,7 @@ FORMATTED_DATE_FROM = DATE_FROM.strftime("%d/%m/%Y")
 DATE_TO = datetime.datetime.now() + datetime.timedelta(days=(6 * 30))
 FORMATTED_DATE_TO = DATE_TO.strftime("%d/%m/%Y")
 CONDITION_MET = False
+
 
 class FlightData:
     # This class is responsible for structuring the flight data.
@@ -52,7 +53,7 @@ class FlightData:
                     inbound_date = row['local_arrival'].split("T")[0]
                     CONDITION_MET = True
             if CONDITION_MET:
-                notification_manager.send_message(lowest_flight_price, departure_city_name, iata_from_airport,
-                                                  arrival_city_name, iata_to_airport, outbound_date, inbound_date)
+                send_message(lowest_flight_price, departure_city_name, iata_from_airport,
+                             arrival_city_name, iata_to_airport, outbound_date, inbound_date)
                 CONDITION_MET = False
         return
